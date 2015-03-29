@@ -78,7 +78,7 @@ module Thin
         server.app = Rack::URLMap.new(@options[:prefix] => server.app) if @options[:prefix]
 
         # If a stats URL is specified, wrap in Stats adapter
-        server.app = Stats::Adapter.new(server.app, @options[:stats]) if @options[:stats]
+        server.app = Stats::Adapter.new(server.app, server.backend, @options[:stats]) if @options[:stats]
 
         # Register restart procedure which just start another process with same options,
         # so that's why this is done here.

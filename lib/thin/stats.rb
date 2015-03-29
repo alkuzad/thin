@@ -6,9 +6,13 @@ module Thin
     class Adapter
       include ERB::Util
       
-      def initialize(app, path='/stats')
+      def initialize(app, backend, path='/stats')
         @app  = app
+        @backend = backend
         @path = path
+
+	@conns_max = @backend.instance_variable_get('@maximum_connections').to_i rescue 0
+	@pers_conns_max = @backend.instance_variable_get('@maximum_persistent_connections').to_i rescue 0
 
         @template = ERB.new(File.read(File.dirname(__FILE__) + '/stats.html.erb'))
         
@@ -29,7 +33,10 @@ module Thin
         @requests += 1
         @last_request = Rack::Request.new(env)
         request_started_at = Time.now
-        
+
+	@conns_count = @backend.instance_variable_get('@connections').size rescue 0
+	@pers_conns_count = @backend.instance_variable_get('@persistent_connection_count') rescue 0
+
         response = yield
         
         @requests_finished += 1

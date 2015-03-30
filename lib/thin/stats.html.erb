@@ -80,14 +80,18 @@
       <th>PID</th>
       <td><%=h Process.pid %></td>
     </tr>
+    <% if @conns_max and @conns_count %>
     <tr>
       <th>Connections / Maximum</th>
       <td class="<%= @conns_count > (@conns_max * 0.9).to_i ? 'danger' : @conns_count > (@conns_max * 0.5).to_i ? 'warning' : '' %>"><%= @conns_count || 0 %> / <%= @conns_max %></td>
     </tr>
+    <% end %>
+    <% if @pers_conns_max and @pers_conns_max %>
     <tr>
       <th>Persistent Connections / Maximum </th>
       <td class="<%= @pers_conns_count > (@pers_conns_max * 0.9).to_i ? 'danger' : @pers_conns_count > (@pers_conns_max * 0.5).to_i ? 'warning' : '' %>"><%= @pers_conns_count || 0 %> / <%= @pers_conns_max %></td>
     </tr>
+    <% end %>
   </table>
   
   <% if @last_request %>

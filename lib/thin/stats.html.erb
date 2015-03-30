@@ -86,7 +86,7 @@
       <td class="<%= @conns_count > (@conns_max * 0.9).to_i ? 'danger' : @conns_count > (@conns_max * 0.5).to_i ? 'warning' : '' %>"><%= @conns_count || 0 %> / <%= @conns_max %></td>
     </tr>
     <% end %>
-    <% if @pers_conns_max and @pers_conns_max %>
+    <% if @pers_conns_max and @pers_conns_count %>
     <tr>
       <th>Persistent Connections / Maximum </th>
       <td class="<%= @pers_conns_count > (@pers_conns_max * 0.9).to_i ? 'danger' : @pers_conns_count > (@pers_conns_max * 0.5).to_i ? 'warning' : '' %>"><%= @pers_conns_count || 0 %> / <%= @pers_conns_max %></td>

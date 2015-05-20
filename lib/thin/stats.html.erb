@@ -53,6 +53,7 @@
     #summary ul#quicklinks li { float: left; padding: 0 1em; }
     #summary ul#quicklinks>li+li { border-left: 1px #666 solid; }
     #explanation { background:#eee; }
+    #missing_last_request { background:#e89; }
     #template, #template-not-exist { background:#f6f6f6; }
     #template-not-exist ul { margin: 0 0 0 20px; }
     #traceback { background:#eee; }
@@ -94,7 +95,7 @@
     <% end %>
   </table>
   
-  <% if @last_request %>
+  <% if @last_request%>
     <h3>Jump to:</h3>
     <ul id="quicklinks">
       <li><a href="#get-info">GET</a></li>
@@ -220,6 +221,13 @@
   </div>
 <% end %>
 
+<% unless @last_request %>
+<div id="missing_last_request">
+ <p>
+   Last request statistics was disabled due to security policy, please use switch inside app initializer to enable them
+ </p>
+</div>
+<% end %>
 <div id="explanation">
   <p>
     You're seeing this page because you use <code>Thin::Stats</code>.

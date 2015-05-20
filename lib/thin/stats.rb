@@ -6,7 +6,7 @@ module Thin
     class Adapter
       include ERB::Util
       
-      def initialize(app, backend, path='/stats')
+      def initialize(app, backend, path='/stats', last_request_visible=false)
         @app  = app
         @backend = backend
         @path = path
@@ -19,6 +19,7 @@ module Thin
         @requests          = 0
         @requests_finished = 0
         @start_time        = Time.now
+        @last_request_visible = last_request_visible
       end
       
       def call(env)
@@ -31,7 +32,7 @@ module Thin
       
       def log(env)
         @requests += 1
-        @last_request = Rack::Request.new(env)
+        @last_request = Rack::Request.new(env) if @last_request_visible
         request_started_at = Time.now
 
 	@conns_count = @backend.instance_variable_get('@connections').size rescue 0
